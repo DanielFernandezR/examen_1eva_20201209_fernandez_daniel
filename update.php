@@ -70,7 +70,7 @@
             }
         ?>
         <!-- Creamos un formulario que apunte a este mismo archivo php pasandole como POST el id-->
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}");?>"  method="post">
+        <form method="post">
             <table class='table table-hover table-responsive table-bordered'>
                 <tr>
                     <td>Name</td>

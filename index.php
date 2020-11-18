@@ -73,7 +73,16 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <!-- Latest compiled and minified Bootstrap JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<!-- confirm delete record will be here -->
-
+<script type='text/javascript'>
+// Borrar producto de la BBDDD
+function delete_user( id ){
+	
+	var answer = confirm('Are you sure?');
+	if (answer){
+		// Si el usuario clicka en OK, pasa la id a delete.php y ejecuta la delete query 
+		window.location = 'delete.php?id=' + id;
+	} 
+}
+</script>
 </body>
 </html>
