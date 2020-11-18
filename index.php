@@ -18,12 +18,20 @@
         <?php
             // Conexión a base de datos con el otro archivo (Importamos $con y sus funciones)
             include 'config/database.php';
+            // page es la página actual, y si no hay definida, la por defecto es 1.
+            $page = isset($_GET['page']) ? $_GET['page'] : 1;
+            // Asignamos en una variable cuantos productos habrá por página.
+            $records_per_page = 5;
+            // calculate for the query LIMIT clause
+            $from_record_num = ($records_per_page * $page) - $records_per_page;
 
-            // delete message prompt will be here
-
-            // Seleccionar todos los datos de la BBDD
-            $query = "SELECT id, name, description, price FROM products ORDER BY id DESC";
+            // Selecciona los productos para la página actual
+            $query = "SELECT id, name, description, price FROM products ORDER BY id DESC
+            LIMIT :from_record_num, :records_per_page";
             $stmt = $con->prepare($query);
+            // Asignamos los parametros del limit de las variables que tenemos creadas.
+            $stmt->bindParam(":from_record_num", $from_record_num, PDO::PARAM_INT);
+            $stmt->bindParam(":records_per_page", $records_per_page, PDO::PARAM_INT);
             $stmt->execute();
             // Devuelve el numero de filas devueltas
             $num = $stmt->rowCount();
@@ -64,6 +72,19 @@
                 }
                 // Finalizamos la tabla
                 echo "</table>";
+                // PAGINATION
+                // Cuenta el total de filas
+                $query = "SELECT COUNT(*) as total_rows FROM products";
+                $stmt = $con->prepare($query);
+                // Ejecutamos la query
+                $stmt->execute();
+                // Conseguimos el total de filas
+                $row = $stmt->fetch(PDO::FETCH_ASSOC);
+                $total_rows = $row['total_rows'];
+                // Escribimos el nombre del archivo con un ? al final para añadir parámetros
+                $page_url="index.php?";
+                // Añadimos el código donde creamos la paginación
+                include_once "paging.php";
                 } else {
                     echo "<div class='alert-danger'>No hay datos en la BBDD</div>";
                 }
@@ -76,7 +97,6 @@
 <script type='text/javascript'>
 // Borrar producto de la BBDDD
 function delete_user( id ){
-	
 	var answer = confirm('Are you sure?');
 	if (answer){
 		// Si el usuario clicka en OK, pasa la id a delete.php y ejecuta la delete query 
