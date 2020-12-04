@@ -35,64 +35,60 @@
                 // Especificamos cuando se ha creado esta query
                 $created=date('Y-m-d H:i:s');
                 $stmt->bindParam(':created', $created);
+                if ($image) {
+                    // Creamos la ruta al directorio, asignamos el archivo y su extensión
+                    $target_directory = "uploads/";
+                    $target_file = $target_directory . $image;
+                    $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+                    // Mensaje de error vacio
+                    $file_upload_error_messages="";
+                    // Confirmar que es una imagen real
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if($check!==false){
+                        // Archivo enviado es una imagen
+                    }else{
+                        $file_upload_error_messages.="<div>Submitted file is not an image.</div>";
+                    }
+                    // Permitir solamente X tipos de archivos
+                    $allowed_file_types=array("jpg", "jpeg", "png", "gif");
+                    if(!in_array($file_type, $allowed_file_types)){
+                        $file_upload_error_messages.="<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
+                    }
+                    // Comprobar que el archivo no existe ya con el mismo nombre
+                    if(file_exists($target_file)){
+                        $file_upload_error_messages.="<div>Image already exists. Try to change file name.</div>";
+                    }
+                    // Comprobar que el archivo no pesa más de 1MB
+                    if($_FILES['image']['size'] > (1024000)){
+                        $file_upload_error_messages.="<div>Image must be less than 1 MB in size.</div>";
+                    }
+                    // Comprobar que existe la carpeta uploads, si no, la crea
+                    if(!is_dir($target_directory)){
+                        mkdir($target_directory, 0777, true);
+                    }
+                    // Si $file_upload_error_messages sigue vacio
+                    if(empty($file_upload_error_messages)){
+                        // Significa que no ha habido errores, entonces intenta subir el archivo
+                        if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
+                            // Significa que se ha subido
+                        }
+                    }
+                    // Si $file_upload_error_messages NO está vacío
+                    else{
+                        // Significa que ha habido errores, y se lo mostramos al usuario
+                        echo "<div class='alert alert-danger'>";
+                            echo "<div>{$file_upload_error_messages}</div>";
+                            echo "<div>Update the record to upload photo.</div>";
+                            echo "<a href='index.php' class='btn btn-danger'>Back to read products</a>";
+                            die();
+                        echo "</div>";
+                    }
                 // Ejecutamos la query
                 if($stmt->execute()){
                     echo "<div class='alert alert-success'>Record was saved.</div>";
-                    if($image){
-                        // Creamos la ruta al directorio, asignamos el archivo y su extensión
-                        $target_directory = "uploads/";
-                        $target_file = $target_directory . $image;
-                        $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-                        // Mensaje de error vacio
-                        $file_upload_error_messages="";
-                        // Confirmar que es una imagen real
-                        $check = getimagesize($_FILES["image"]["tmp_name"]);
-                        if($check!==false){
-                            // Archivo enviado es una imagen
-                        }else{
-                            $file_upload_error_messages.="<div>Submitted file is not an image.</div>";
-                        }
-                        // Permitir solamente X tipos de archivos
-                        $allowed_file_types=array("jpg", "jpeg", "png", "gif");
-                        if(!in_array($file_type, $allowed_file_types)){
-                            $file_upload_error_messages.="<div>Only JPG, JPEG, PNG, GIF files are allowed.</div>";
-                        }
-                        // Comprobar que el archivo no existe ya con el mismo nombre
-                        if(file_exists($target_file)){
-                            $file_upload_error_messages.="<div>Image already exists. Try to change file name.</div>";
-                        }
-                        // Comprobar que el archivo no pesa más de 1MB
-                        if($_FILES['image']['size'] > (1024000)){
-                            $file_upload_error_messages.="<div>Image must be less than 1 MB in size.</div>";
-                        }
-                        // Comprobar que existe la carpeta uploads, si no, la crea
-                        if(!is_dir($target_directory)){
-                            mkdir($target_directory, 0777, true);
-                        }
-                        // Si $file_upload_error_messages sigue vacio
-                        if(empty($file_upload_error_messages)){
-                            // Significa que no ha habido errores, entonces intenta subir el archivo
-                            if(move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)){
-                                // Significa que se ha subido
-                            }else{
-                                echo "<div class='alert alert-danger'>";
-                                    echo "<div>Unable to upload photo.</div>";
-                                    echo "<div>Update the record to upload photo.</div>";
-                                echo "</div>";
-                            }
-                        }
-
-                        // Si $file_upload_error_messages NO está vacío
-                        else{
-                            // Significa que ha habido errores, y se lo mostramos al usuario
-                            echo "<div class='alert alert-danger'>";
-                                echo "<div>{$file_upload_error_messages}</div>";
-                                echo "<div>Update the record to upload photo.</div>";
-                            echo "</div>";
-                        }
-                    }
-                }else{
+                } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
+                    }
                 }
             }
             catch(PDOException $exception){
