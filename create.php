@@ -48,7 +48,7 @@
                         // Confirmar que es una imagen real
                         $check = getimagesize($_FILES["image"]["tmp_name"]);
                         if($check!==false){
-                            // submitted file is an image
+                            // Archivo enviado es una imagen
                         }else{
                             $file_upload_error_messages.="<div>Submitted file is not an image.</div>";
                         }
