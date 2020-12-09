@@ -1,4 +1,8 @@
-Ejercicio 5
+## Ejercicio 4
+
+Para añadir el simbolo del dólar en ambas páginas, he insertado antes del valor del precio "\$" .
+
+## Ejercicio 5
 
 La imagen se inserta mediante una query INSERT de MYSQL en la base de datos. Ej:
 
@@ -23,3 +27,5 @@ La imagen está guardada en la carpeta uploads que se ha creado en las comprobac
 Para recuperar dicha imagen y mostrarla en la tabla, se debe hacer con la etiqueta <img> un src hacia la carpeta uploads. Ej:
 
 <img src='uploads/{$image}' style='width:300px;'/>"
+
+## Ejercicio 6
