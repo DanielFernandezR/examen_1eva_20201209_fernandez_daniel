@@ -29,3 +29,8 @@ Para recuperar dicha imagen y mostrarla en la tabla, se debe hacer con la etique
 <img src='uploads/{$image}' style='width:300px;'/>"
 
 ## Ejercicio 6
+
+Lo primero que he cambiado en update.php ha sido la query UPDATE products añadiendo como otro atributo la imagen.
+Después he asociado con bindParam el valor de :image a la variable $image que apunta al input del formulario con la imagen.
+Finalmente, antes de ejecutar la query, hace todas las comprobaciones que tenia en create.php sobre la imagen que se sube, 
+también lo aplico en update.php y finalmente se hace el update de la imagen y del producto en general.

@@ -47,7 +47,7 @@
                     if($check!==false){
                         // Archivo enviado es una imagen
                     }else{
-                        $file_upload_error_messages.="<div>Submitted file is not an image.</div>";
+                        $file_upload_error_messages.="<div>Image must be less than 1 MB in size.</div>";
                     }
                     // Permitir solamente X tipos de archivos
                     $allowed_file_types=array("jpg", "jpeg", "png", "gif");
@@ -84,12 +84,12 @@
                         echo "</div>";
                     }
                 // Ejecutamos la query
+                }
                 if($stmt->execute()){
                     echo "<div class='alert alert-success'>Record was saved.</div>";
                 } else {
                     echo "<div class='alert alert-danger'>Unable to save record.</div>";
                     }
-                }
             }
             catch(PDOException $exception){
                 die('ERROR: ' . $exception->getMessage());
