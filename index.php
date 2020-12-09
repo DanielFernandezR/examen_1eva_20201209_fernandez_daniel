@@ -25,6 +25,9 @@
             // calculate for the query LIMIT clause
             $from_record_num = ($records_per_page * $page) - $records_per_page;
 
+            // SIMBOLO DOLAR
+            $dolar = "$";
+
             // Selecciona los productos para la página actual
             $query = "SELECT id, name, description, price FROM products ORDER BY id DESC
             LIMIT :from_record_num, :records_per_page";
@@ -59,7 +62,7 @@
                         echo "<td>{$id}</td>";
                         echo "<td>{$name}</td>";
                         echo "<td>{$description}</td>";
-                        echo "<td>€{$price}</td>";
+                        echo "<td>\${$price}</td>";
                         echo "<td>";
                             // Botón para entrar y leer el producto
                             echo "<a href='read_one.php?id={$id}' class='btn btn-info m-r-1em'>Read</a>";

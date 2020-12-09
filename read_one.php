@@ -12,6 +12,10 @@
             <?php
                 //Confirmamos que mediante GET ha llegado el ID del producto
                 $id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Record ID not found.');
+
+                // SIMBOLO DOLAR
+                $dolar = "$";
+
                 // Conexión a base de datos con el otro archivo (Importamos $con y sus funciones)
                 include 'config/database.php';
                 // Leemos los datos del producto
@@ -48,7 +52,7 @@
                 </tr>
                 <tr>
                     <td>Price</td>
-                    <td><?php echo "€".htmlspecialchars($price, ENT_QUOTES);  ?></td>
+                    <td><?php echo "\$".htmlspecialchars($price, ENT_QUOTES);  ?></td>
                 </tr>
                 <tr>
                     <td>Image</td>
