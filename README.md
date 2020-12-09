@@ -8,7 +8,7 @@ La imagen se inserta mediante una query INSERT de MYSQL en la base de datos. Ej:
 
 $query = "INSERT INTO products SET name=:name, description=:description, price=:price, image=:image, created=:created";
 
-La columna en la cual se debe añadir la imágen debe ser de tipo BLOB, ya que ese tipo de columna se encarga de almacenar imágenes en este caso.
+La columna en la cual se debe añadir la imágen debe ser de tipo BLOB (En este caso LONGBLOB), ya que ese tipo de columna se encarga de almacenar imágenes en este caso.
 
 Antes de enviar la imagen a la BBDD, se debe comprobar:
 - Que es una imagen real, y no otro tipo de archivo.
@@ -34,3 +34,8 @@ Lo primero que he cambiado en update.php ha sido la query UPDATE products añadi
 Después he asociado con bindParam el valor de :image a la variable $image que apunta al input del formulario con la imagen.
 Finalmente, antes de ejecutar la query, hace todas las comprobaciones que tenia en create.php sobre la imagen que se sube, 
 también lo aplico en update.php y finalmente se hace el update de la imagen y del producto en general.
+
+
+- Localización del repositorio: http://danielfr.hopto.org/Trabajos/1%C2%BA_Evaluacion/php-beginner-crud-level-1/
+- Acceso al Adminer: http://danielfr.hopto.org/adminer.php
+    (Usuario: root | Contraseña: 1234 | Base de datos: php_beginner_crud_level_1)
